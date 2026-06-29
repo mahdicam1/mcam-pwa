@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#CC0000">
+  <meta name="description" content="M-Cam — مساعدك لاختيار نظام الكاميرات المثالي. احسب احتياجاتك في دقيقتين">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta property="og:title" content="M-Cam — كاميرات احترافية">
+  <meta property="og:description" content="احسب عدد الكاميرات اللي تحتاجها في دقيقتين">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mcam-dz.vercel.app">
+  <meta property="og:image" content="https://mcam-dz.vercel.app/assets/icon.svg">
+  <title>M-Cam — كاميرات احترافية</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icon.svg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ========== SPLASH SCREEN ========== -->
+  <div id="page-splash" class="page active">
+    <div class="splash-content">
+      <div class="splash-logo">
+        <svg viewBox="0 0 512 512" class="splash-icon">
+          <rect width="512" height="512" rx="80" fill="#CC0000"/>
+          <circle cx="256" cy="256" r="110" fill="#0A0A0A"/>
+          <circle cx="256" cy="256" r="70" fill="#CC0000"/>
+          <circle cx="256" cy="256" r="40" fill="#0A0A0A"/>
+          <rect x="195" y="100" width="122" height="32" rx="8" fill="#0A0A0A"/>
+          <circle cx="160" cy="180" r="12" fill="#F5F5F5"/>
+        </svg>
+      </div>
+      <h1 class="splash-title">M-Cam</h1>
+      <p class="splash-sub">camera technologie</p>
+      <div class="splash-dot"></div>
+    </div>
+  </div>
+
+  <!-- ========== HOME ========== -->
+  <div id="page-home" class="page">
+    <div class="page-inner">
+      <div class="home-header">
+        <div class="home-logo">
+          <svg viewBox="0 0 512 512" class="logo-icon">
+            <rect width="512" height="512" rx="80" fill="#CC0000"/>
+            <circle cx="256" cy="256" r="110" fill="#0A0A0A"/>
+            <circle cx="256" cy="256" r="70" fill="#CC0000"/>
+            <circle cx="256" cy="256" r="40" fill="#0A0A0A"/>
+            <rect x="195" y="100" width="122" height="32" rx="8" fill="#0A0A0A"/>
+            <circle cx="160" cy="180" r="12" fill="#F5F5F5"/>
+          </svg>
+        </div>
+        <h1 class="home-title">M-Cam</h1>
+        <p class="home-sub">camera technologie</p>
+      </div>
+
+      <div class="home-hero">
+        <p class="hero-text">راقب دارك — وين ما كنت — بضمان!</p>
+        <div class="hero-tags">
+          <span class="tag">منازل</span>
+          <span class="tag">محلات</span>
+          <span class="tag">مكاتب</span>
+          <span class="tag">مزارع</span>
+        </div>
+      </div>
+
+      <button class="btn-primary btn-large" onclick="navigateTo('quiz')">
+        احسب احتياجاتك
+      </button>
+
+      <div class="home-share">
+        <button class="btn-outline" onclick="shareApp()">
+          مشاركة الرابط مع زبون
+        </button>
+      </div>
+
+      <div class="home-nav-grid">
+        <button class="nav-card" onclick="navigateTo('works')">أعمالنا</button>
+        <button class="nav-card" onclick="navigateTo('faq')">الأسئلة</button>
+        <button class="nav-card" onclick="navigateTo('warranty')">الضمان</button>
+        <button class="nav-card" onclick="navigateTo('process')">طريقة العمل</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== QUIZ ========== -->
+  <div id="page-quiz" class="page">
+    <div class="quiz-header">
+      <button class="quiz-back" onclick="quizGoBack()">← رجوع</button>
+      <div class="progress-bar"><div class="progress-fill" id="quiz-progress"></div></div>
+      <span class="quiz-step" id="quiz-step-label">1/6</span>
+    </div>
+    <div class="page-inner" id="quiz-content">
+      <!-- Dynamic quiz content -->
+    </div>
+  </div>
+
+  <!-- ========== RESULT ========== -->
+  <div id="page-result" class="page">
+    <div class="page-inner">
+      <div class="result-header">
+        <div class="result-icon">✅</div>
+        <h2>توصية M-Cam لمكانك</h2>
+      </div>
+      <div class="result-card" id="result-summary">
+        <!-- Dynamic result content -->
+      </div>
+      <div class="result-details" id="result-details">
+        <!-- Dynamic details -->
+      </div>
+      <div class="result-images">
+        <h3>أرفق صور مكانك</h3>
+        <p class="result-images-hint">اختر صوراً للمكان من هاتفك</p>
+        <label class="file-upload-btn">
+          <input type="file" id="image-upload" multiple accept="image/*" onchange="handleImageUpload(event)">
+          اختر الصور
+        </label>
+        <div class="image-previews" id="image-previews"></div>
+        <p class="image-count" id="image-count">0 صور تم الاختيار</p>
+      </div>
+      <button class="btn-primary btn-large" onclick="sendToWhatsApp()">
+        أرسل للمختص واتساب
+      </button>
+      <button class="btn-secondary" onclick="navigateTo('home')">العودة للرئيسية</button>
+    </div>
+  </div>
+
+  <!-- ========== SENT ========== -->
+  <div id="page-sent" class="page">
+    <div class="page-inner sent-page">
+      <div class="sent-icon">✅</div>
+      <h2 class="sent-title">تم إرسال معلوماتك!</h2>
+      <div class="sent-card">
+        <div class="sent-timer">⏱️</div>
+        <p>سيتواصل معك خبيرنا<br><strong>خلال أقل من ساعة</strong></p>
+      </div>
+      <div class="sent-card">
+        <div class="sent-timer">📸</div>
+        <p><strong>لا تنسَ ترسل صور مكانك</strong><br>في نفس المحادثة على واتساب</p>
+      </div>
+      <div class="sent-actions">
+        <button class="btn-secondary" onclick="shareImagesForReview()">
+          إرسال الصور الآن
+        </button>
+        <button class="btn-primary" onclick="navigateTo('home')">
+          العودة للرئيسية
+        </button>
+        <button class="btn-outline" onclick="window.location.href='tel:+213799662196'">
+          اتصل الآن
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== FAQ ========== -->
+  <div id="page-faq" class="page">
+    <div class="page-inner">
+      <h2 class="section-title">الأسئلة الشائعة</h2>
+      <div class="faq-sections" id="faq-container">
+        <!-- Dynamic FAQ content -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== WORKS ========== -->
+  <div id="page-works" class="page">
+    <div class="page-inner">
+      <h2 class="section-title">أعمالنا السابقة</h2>
+      <div class="works-grid" id="works-grid">
+        <div class="work-item" onclick="viewWork(this)"><img src="assets/works-placeholder.svg" alt="عمل 1"></div>
+        <div class="work-item" onclick="viewWork(this)"><img src="assets/works-placeholder.svg" alt="عمل 2"></div>
+        <div class="work-item" onclick="viewWork(this)"><img src="assets/works-placeholder.svg" alt="عمل 3"></div>
+        <div class="work-item" onclick="viewWork(this)"><img src="assets/works-placeholder.svg" alt="عمل 4"></div>
+        <div class="work-item" onclick="viewWork(this)"><img src="assets/works-placeholder.svg" alt="عمل 5"></div>
+        <div class="work-item" onclick="viewWork(this)"><img src="assets/works-placeholder.svg" alt="عمل 6"></div>
+        <p style="color:var(--gray);font-size:0.8rem;grid-column:1/-1;text-align:center;">💡 استبدل هذه الصور بأعمالك الحقيقية</p>
+      </div>
+      <div class="works-tiktok">
+        <p>شاهد المزيد في تيك توك</p>
+        <a href="https://www.tiktok.com/@mahdicamera16" target="_blank" rel="noopener" class="tiktok-link">
+          ▶️ @mahdicamera16
+        </a>
+        <div class="tiktok-thumbnails">
+          <a href="https://www.tiktok.com/@mahdicamera16" target="_blank" rel="noopener" class="tiktok-thumb">
+            <span>▶️</span>
+            <small>آخر الفيديوهات</small>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PROCESS ========== -->
+  <div id="page-process" class="page">
+    <div class="page-inner">
+      <h2 class="section-title">كيف نشتغل معك؟</h2>
+      <div class="process-steps">
+        <div class="process-step"><span class="step-num">1</span><span>ترسل لنا معلوماتك وصورك</span></div>
+        <div class="process-step"><span class="step-num">2</span><span>نراجعها ونعدّ عرضك (خلال أقل من ساعة)</span></div>
+        <div class="process-step"><span class="step-num">3</span><span>نتفق على السعر والموعد</span></div>
+        <div class="process-step"><span class="step-num">4</span><span>نركب كل شيء في يوم واحد</span></div>
+        <div class="process-step"><span class="step-num">5</span><span>نختبر النظام كامل أمامك</span></div>
+        <div class="process-step"><span class="step-num">6</span><span>نعلمك كيف تستعمل الهاتف</span></div>
+        <div class="process-step"><span class="step-num">7</span><span>نسلمك الضمان</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== WARRANTY ========== -->
+  <div id="page-warranty" class="page">
+    <div class="page-inner">
+      <h2 class="section-title">ضمان M-Cam</h2>
+      <div class="warranty-list">
+        <div class="warranty-item">ضمان على جميع الأجهزة</div>
+        <div class="warranty-item">ضمان على التركيب والأسلاك</div>
+        <div class="warranty-item">دعم فني عبر الهاتف</div>
+        <div class="warranty-item">زيارة صيانة عند الحاجة</div>
+        <div class="warranty-item">تركيب احترافي بدون أضرار</div>
+        <div class="warranty-item">أسلاك مخفية أو مرتبة</div>
+        <div class="warranty-item">نعلمك كيف تستخدم كل شيء</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== CONTACT ========== -->
+  <div id="page-contact" class="page">
+    <div class="page-inner">
+      <h2 class="section-title">تواصل معنا</h2>
+      <div class="contact-cards">
+        <a href="tel:+213799662196" class="contact-card">
+          <span class="contact-icon">📞</span>
+          <span class="contact-label">اتصال</span>
+          <span class="contact-value">0799 66 21 96</span>
+        </a>
+        <a href="https://wa.me/213799662196" target="_blank" rel="noopener" class="contact-card">
+          <span class="contact-icon">💬</span>
+          <span class="contact-label">واتساب</span>
+          <span class="contact-value">0799 66 21 96</span>
+        </a>
+        <a href="https://www.tiktok.com/@mahdicamera16" target="_blank" rel="noopener" class="contact-card">
+          <span class="contact-icon">🎬</span>
+          <span class="contact-label">تيك توك</span>
+          <span class="contact-value">@mahdicamera16</span>
+        </a>
+      </div>
+      <div class="contact-location">
+        📍 خبراء تركيب الكاميرات — الجزائر
+      </div>
+      <div class="dashboard-trigger" onclick="promptDashboard()">
+        <small>⚙️</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== DASHBOARD ========== -->
+  <div id="page-dashboard" class="page">
+    <div class="page-inner">
+      <div class="dashboard-header">
+        <h2 class="section-title">لوحة التحكم</h2>
+        <button class="btn-outline small" onclick="navigateTo('contact')">رجوع</button>
+      </div>
+      <div class="dashboard-stats" id="dashboard-stats">
+        <div class="stat-card"><span class="stat-num" id="stat-visits">0</span><span class="stat-label">إجمالي الزوار</span></div>
+        <div class="stat-card"><span class="stat-num" id="stat-inquiries">0</span><span class="stat-label">استفسارات واتساب</span></div>
+        <div class="stat-card"><span class="stat-num" id="stat-rating">0</span><span class="stat-label">متوسط التقييم</span></div>
+      </div>
+      <h3>آخر الاستفسارات</h3>
+      <div class="inquiries-list" id="inquiries-list"></div>
+      <button class="btn-secondary small" onclick="clearDashboard()">مسح البيانات</button>
+    </div>
+  </div>
+
+  <!-- ========== INSTALL PROMPT ========== -->
+  <div id="install-prompt" class="install-prompt hidden">
+    <div class="install-content">
+      <div class="install-icon">📲</div>
+      <div class="install-text">
+        <strong>ثبّت التطبيق على هاتفك</strong>
+        <small>وصول سريع بدون إنترنت</small>
+      </div>
+      <div class="install-actions">
+        <button class="btn-primary small" id="install-btn">تثبيت</button>
+        <button class="btn-link" onclick="dismissInstall()">لاحقاً</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== STAR RATING MODAL ========== -->
+  <div id="rating-modal" class="modal hidden">
+    <div class="modal-content">
+      <h3>قيّم تجربتك مع المساعد</h3>
+      <div class="stars" id="star-rating">
+        <span class="star" data-value="1">☆</span>
+        <span class="star" data-value="2">☆</span>
+        <span class="star" data-value="3">☆</span>
+        <span class="star" data-value="4">☆</span>
+        <span class="star" data-value="5">☆</span>
+      </div>
+      <button class="btn-primary" onclick="submitRating()">إرسال التقييم</button>
+      <button class="btn-link" onclick="skipRating()">تخطي</button>
+    </div>
+  </div>
+
+  <!-- ========== BOTTOM NAV ========== -->
+  <nav id="bottom-bar" class="bottom-bar">
+    <button class="nav-btn" onclick="navigateTo('home')">
+      <span class="nav-btn-icon">🏠</span>
+      <span class="nav-btn-label">الرئيسية</span>
+    </button>
+    <button class="nav-btn" onclick="navigateTo('faq')">
+      <span class="nav-btn-icon">❓</span>
+      <span class="nav-btn-label">الأسئلة</span>
+    </button>
+    <button class="nav-btn" onclick="navigateTo('works')">
+      <span class="nav-btn-icon">📷</span>
+      <span class="nav-btn-label">أعمالنا</span>
+    </button>
+    <button class="nav-btn" onclick="navigateTo('contact')">
+      <span class="nav-btn-icon">📞</span>
+      <span class="nav-btn-label">اتصل</span>
+    </button>
+  </nav>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script src="js/app.js"></script>
+  <script src="js/faq.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/whatsapp.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

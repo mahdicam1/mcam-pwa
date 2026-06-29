@@ -1,0 +1,17 @@
+{
+  "name": "M-Cam — كاميرات احترافية",
+  "short_name": "M-Cam",
+  "description": "مساعدك لاختيار نظام الكاميرات المثالي — احسب احتياجاتك في دقيقتين",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0A0A",
+  "theme_color": "#CC0000",
+  "lang": "ar",
+  "dir": "rtl",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "assets/icon.svg", "sizes": "192x192", "type": "image/svg+xml" },
+    { "src": "assets/icon.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

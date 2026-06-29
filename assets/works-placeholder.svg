@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#1A1A1A"/>
+  <text x="200" y="140" text-anchor="middle" fill="#CC0000" font-size="48" font-family="sans-serif">📷</text>
+  <text x="200" y="180" text-anchor="middle" fill="#888" font-size="14" font-family="sans-serif">صورة العمل</text>
+</svg>
