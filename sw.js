@@ -10,6 +10,7 @@ const FILES = [
   "/js/faq.js",
   "/js/dashboard.js",
   "/assets/icon.svg",
+  "/assets/logo.png",
   "/manifest.json"
 ];
 
