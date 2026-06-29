@@ -14,7 +14,7 @@ var wilayas = [
 var quizState = {
   currentStep: 0,
   typeSubStep: 0,
-    totalSteps: 12,
+    totalSteps: 11,
   answers: {
     wilaya: null,
     addressText: '',
@@ -27,7 +27,6 @@ var quizState = {
     cameraCount: null,
     storage: null,
     spots: [],
-    recording: null,
     power: null,
     internet: null,
     installTiming: null,
@@ -42,7 +41,6 @@ var questions = [
   { id: 'type', question: 'ما نوع مكانك؟', type: 'type' },
   { id: 'cameraCount', question: 'كم عدد الكاميرات التي تريدها تقريباً؟', type: 'single' },
   { id: 'storage', question: 'ما نوع التخزين الذي تريده؟', type: 'single' },
-  { id: 'recording', question: 'نوع التسجيل المطلوب؟', type: 'single' },
   { id: 'power', question: 'ما وضع الكهرباء في مكانك؟', type: 'single' },
   { id: 'internet', question: 'هل يوجد إنترنت في المكان؟', type: 'single' },
   { id: 'installTiming', question: 'متى تريد التركيب؟', type: 'single' },
@@ -90,10 +88,6 @@ function renderQuiz() {
     html += renderCameraCountOptions();
   } else if (q.id === 'storage') {
     html += renderStorageOptions();
-  } else if (q.id === 'recording') {
-    html += '<button class="option-btn" onclick="selectQuizOption(\'recording\',\'24/7\')">🔄 24/7 — تسجيل مستمر</button>';
-    html += '<button class="option-btn" onclick="selectQuizOption(\'recording\',\'حركة\')">📹 عند الحركة فقط</button>';
-    html += '<button class="option-btn" onclick="selectQuizOption(\'recording\',\'مشاهدة\')">👁️ مشاهدة مباشرة فقط</button>';
   } else if (q.id === 'power') {
     html += '<button class="option-btn" onclick="selectQuizOption(\'power\',\'عادية\')">⚡ كهرباء عادية</button>';
     html += '<button class="option-btn" onclick="selectQuizOption(\'power\',\'شمسية\')">☀️ طاقة شمسية</button>';
@@ -489,7 +483,7 @@ function resetQuiz() {
   quizState = {
     currentStep: 0,
     typeSubStep: 0,
-  totalSteps: 12,
+  totalSteps: 11,
     answers: {
       wilaya: null,
       addressText: '',
@@ -502,7 +496,6 @@ function resetQuiz() {
       cameraCount: null,
       storage: null,
       spots: [],
-      recording: null,
       power: null,
       internet: null,
       installTiming: null,
@@ -583,7 +576,6 @@ function showResult() {
 
   var details = document.getElementById('result-details');
   details.innerHTML =
-    '<div class="result-detail-item"><span class="result-detail-label">نوع التسجيل</span><span class="result-detail-value">' + (a.recording || '—') + '</span></div>' +
     '<div class="result-detail-item"><span class="result-detail-label">الكهرباء</span><span class="result-detail-value">' + (a.power || '—') + '</span></div>' +
     '<div class="result-detail-item"><span class="result-detail-label">الإنترنت</span><span class="result-detail-value">' + (a.internet || '—') + '</span></div>' +
     '<div class="result-detail-item"><span class="result-detail-label">موعد التركيب</span><span class="result-detail-value">' + formatInstallTiming(a.installTiming) + '</span></div>';

@@ -16,7 +16,6 @@ function sendToWhatsApp() {
   msg += '━━━━━━━━━━━━━━━\n';
   msg += '*عدد الكاميرات:* ' + formatCameraCount(a.cameraCount) + '\n';
   msg += '*التخزين:* ' + formatStorage(a.storage) + '\n';
-  msg += '*التسجيل:* ' + (a.recording || '—') + '\n';
   msg += '*الكهرباء:* ' + (a.power || '—') + '\n';
   msg += '*الإنترنت:* ' + (a.internet || '—') + '\n';
   msg += '*موعد التركيب:* ' + formatInstallTiming(a.installTiming) + '\n';
