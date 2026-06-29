@@ -1,7 +1,23 @@
+// ===== ALGERIAN WILAYAS =====
+var wilayas = [
+  'أدرار','الشلف','الأغواط','أم البواقي','باتنة','بجاية','بسكرة','بشار',
+  'البليدة','البويرة','تامنغست','تبسة','تلمسان','تيارت','تيزي وزو','الجزائر',
+  'الجلفة','جيجل','سطيف','سعيدة','سكيكدة','سيدي بلعباس','عنابة','قالمة',
+  'قسنطينة','المدية','مستغانم','المسيلة','معسكر','وهران','البيض','إليزي',
+  'برج بوعريريج','بومرداس','الطارف','تيندوف','تيسمسيلت','الوادي','خنشلة',
+  'سوق أهراس','تيبازة','ميلة','عين الدفلى','النعامة','عين تموشنت','غرداية',
+  'غليزان','المغير','المنيعة','أولاد جلال','بني عباس','عمران','إن قزام',
+  'تقرت','جانت','البرواقية','تميمون'
+];
+
 // ===== QUIZ STATE =====
 var quizState = {
   currentStep: 0,
   answers: {
+    wilaya: null,
+    addressText: '',
+    addressLat: null,
+    addressLng: null,
     type: null,
     size: null,
     spots: [],
@@ -13,6 +29,8 @@ var quizState = {
 
 // ===== QUIZ QUESTIONS =====
 var questions = [
+  { id: 'wilaya', question: 'في أي ولاية أنت؟', type: 'wilaya' },
+  { id: 'address', question: 'أدخل عنوانك لتحديد الموقع', type: 'address' },
   { id: 'type', question: 'ما نوع مكانك؟', type: 'single' },
   { id: 'size', question: '', type: 'dynamic' },
   { id: 'spots', question: 'أين تريد الكاميرات؟ (اختر كل ما ينطبق)', type: 'multi' },
@@ -30,12 +48,11 @@ function renderQuiz() {
 
   var total = questions.length;
   var step = quizState.currentStep;
-  var pct = ((step) / total) * 100;
+  var pct = (step / total) * 100;
   if (progress) progress.style.width = pct + '%';
   if (stepLabel) stepLabel.textContent = (step + 1) + '/' + total;
 
   if (step >= total) {
-    // Quiz done — show rating then result
     showRatingModal();
     return;
   }
@@ -44,7 +61,11 @@ function renderQuiz() {
   var html = '<div class="quiz-question">' + q.question + '</div>';
   html += '<div class="quiz-options" id="quiz-options">';
 
-  if (q.id === 'type') {
+  if (q.id === 'wilaya') {
+    html += renderWilayaOptions();
+  } else if (q.id === 'address') {
+    html += renderAddressOptions();
+  } else if (q.id === 'type') {
     html += renderTypeOptions();
   } else if (q.id === 'size') {
     html += renderSizeOptions();
@@ -65,6 +86,99 @@ function renderQuiz() {
 
   html += '</div>';
   content.innerHTML = html;
+}
+
+function renderWilayaOptions() {
+  var h = '';
+  h += '<div class="wilaya-search-box">';
+  h += '<span class="wilaya-search-icon">🔍</span>';
+  h += '<input class="wilaya-input" id="wilaya-input" type="text" placeholder="ابحث عن ولايتك..." autocomplete="off" oninput="filterWilayas(this.value)">';
+  h += '</div>';
+  h += '<div class="wilaya-list" id="wilaya-list">';
+  wilayas.forEach(function (w) {
+    h += '<div class="wilaya-item" onclick="selectWilaya(\'' + w + '\')">' + w + '</div>';
+  });
+  h += '</div>';
+  return h;
+}
+
+function filterWilayas(query) {
+  var list = document.getElementById('wilaya-list');
+  if (!list) return;
+  var items = list.querySelectorAll('.wilaya-item');
+  items.forEach(function (item) {
+    if (item.textContent.indexOf(query) !== -1) {
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+
+function selectWilaya(name) {
+  quizState.answers.wilaya = name;
+  var input = document.getElementById('wilaya-input');
+  if (input) input.value = name;
+  setTimeout(quizNext, 200);
+}
+
+function renderAddressOptions() {
+  var h = '';
+  h += '<input class="address-input" id="address-input" type="text" placeholder="أدخل العنوان (مثلاً: 15 نهج العربي، المدينة)" value="' + (quizState.answers.addressText || '') + '">';
+  h += '<div class="address-divider">أو</div>';
+  h += '<button class="map-btn" onclick="openMapModal()">📍 حدد موقعي على الخريطة</button>';
+  var lat = quizState.answers.addressLat;
+  if (lat) {
+    h += '<div class="address-confirmed">✅ تم تحديد الموقع</div>';
+  }
+  h += '<button class="btn-primary quiz-next-btn" onclick="confirmAddress()">تأكيد العنوان ←</button>';
+  return h;
+}
+
+function confirmAddress() {
+  var addr = document.getElementById('address-input');
+  if (addr && addr.value.trim()) {
+    quizState.answers.addressText = addr.value.trim();
+  }
+  if (!quizState.answers.addressText && !quizState.answers.addressLat) {
+    showToast('أدخل عنوانك أو حدد موقعك');
+    return;
+  }
+  quizNext();
+}
+
+// ===== MAP MODAL =====
+function openMapModal() {
+  document.getElementById('map-modal').classList.remove('hidden');
+  var iframe = document.getElementById('map-iframe');
+  iframe.src = 'https://www.openstreetmap.org/export/embed.html?bbox=2.0,34.0,10.0,37.0&layer=mapnik&marker=36.5,3.0';
+}
+
+function closeMapModal() {
+  document.getElementById('map-modal').classList.add('hidden');
+  var iframe = document.getElementById('map-iframe');
+  iframe.src = '';
+}
+
+function getCurrentLocation() {
+  if (!navigator.geolocation) {
+    showToast('الموقع غير متاح على هذا الجهاز');
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(
+    function (pos) {
+      quizState.answers.addressLat = pos.coords.latitude.toFixed(6);
+      quizState.answers.addressLng = pos.coords.longitude.toFixed(6);
+      document.getElementById('map-coords').textContent = '✅ تم تحديد الموقع: ' + quizState.answers.addressLat + ', ' + quizState.answers.addressLng;
+      var iframe = document.getElementById('map-iframe');
+      iframe.src = 'https://www.openstreetmap.org/export/embed.html?bbox=' + (pos.coords.longitude - 0.01) + ',' + (pos.coords.latitude - 0.01) + ',' + (pos.coords.longitude + 0.01) + ',' + (pos.coords.latitude + 0.01) + '&layer=mapnik&marker=' + pos.coords.latitude + ',' + pos.coords.longitude;
+      showToast('تم تحديد الموقع');
+    },
+    function () {
+      showToast('تعذر الحصول على الموقع. أدخل العنوان يدوياً.');
+    },
+    { enableHighAccuracy: true, timeout: 10000 }
+  );
 }
 
 function renderTypeOptions() {
@@ -165,13 +279,11 @@ function renderSpotsOptions() {
 // ===== QUIZ ACTIONS =====
 function selectQuizOption(key, value) {
   quizState.answers[key] = value;
-  // Visual feedback on clicked button
   var opts = document.getElementById('quiz-options');
   if (opts) {
     var btns = opts.querySelectorAll('.option-btn');
     btns.forEach(function (b) { b.classList.remove('selected'); });
   }
-  // Auto advance after short delay
   setTimeout(function () {
     if (questions[quizState.currentStep].type !== 'multi') {
       quizNext();
@@ -188,14 +300,20 @@ function toggleSpot(spot) {
     spots.splice(idx, 1);
   }
   quizState.answers.spots = spots;
-  // Re-render
   renderQuiz();
 }
 
 function quizNext() {
-  // Validate current question
   var q = questions[quizState.currentStep];
   var val = quizState.answers[q.id];
+  if (q.id === 'wilaya' && !val) {
+    showToast('اختر ولايتك للمتابعة');
+    return;
+  }
+  if (q.id === 'address' && !quizState.answers.addressText && !quizState.answers.addressLat) {
+    showToast('أدخل عنوانك أو حدد موقعك');
+    return;
+  }
   if (q.type === 'single' && !val) {
     showToast('اختر إجابة للمتابعة');
     return;
@@ -209,7 +327,6 @@ function quizNext() {
   saveQuizState();
 
   if (quizState.currentStep >= questions.length) {
-    // Done — show result
     saveQuizState();
     showRatingModal();
   } else {
@@ -237,6 +354,10 @@ function resetQuiz() {
   quizState = {
     currentStep: 0,
     answers: {
+      wilaya: null,
+      addressText: '',
+      addressLat: null,
+      addressLng: null,
       type: null,
       size: null,
       spots: [],
@@ -255,7 +376,6 @@ function showRatingModal() {
   selectedRating = 0;
   var modal = document.getElementById('rating-modal');
   modal.classList.remove('hidden');
-  // Reset stars
   document.querySelectorAll('.star').forEach(function (s) {
     s.classList.remove('active');
     s.textContent = '☆';
@@ -267,7 +387,6 @@ function submitRating() {
     showToast('اختر تقييماً');
     return;
   }
-  // Save rating to dashboard
   try {
     var data = JSON.parse(localStorage.getItem('mcam_dashboard') || '{"visits":0,"inquiries":0,"ratings":[],"inquiryList":[]}');
     data.ratings.push(selectedRating);
@@ -283,7 +402,6 @@ function skipRating() {
   showResult();
 }
 
-// Star click handler
 document.addEventListener('click', function (e) {
   if (e.target.classList.contains('star')) {
     var val = parseInt(e.target.getAttribute('data-value'));
@@ -305,7 +423,6 @@ document.addEventListener('click', function (e) {
 function showResult() {
   var result = calculateCameras(quizState.answers);
 
-  // Build summary
   var summary = document.getElementById('result-summary');
   var typeLabel = quizState.answers.type;
   var sizeLabel = '';
@@ -315,8 +432,12 @@ function showResult() {
     sizeLabel = quizState.answers.size;
   }
 
+  var locText = quizState.answers.wilaya || '';
+  if (quizState.answers.addressText) locText += ' — ' + quizState.answers.addressText;
+
   summary.innerHTML =
     '<h3>📍 ' + typeLabel + (sizeLabel ? ' — ' + sizeLabel : '') + '</h3>' +
+    (locText ? '<p><strong>🏠 الموقع:</strong> ' + locText + '</p>' : '') +
     '<p><strong>📷 الكاميرات المقترحة:</strong> ' + result.count + ' كاميرات</p>';
 
   var details = document.getElementById('result-details');
@@ -333,11 +454,10 @@ function showResult() {
     '<div class="result-detail-item"><span class="result-detail-label">التخزين</span><span class="result-detail-value">' + result.storage + '</span></div>' +
     '<div class="result-detail-item"><span class="result-detail-label">الطاقة</span><span class="result-detail-value">' + result.upsNote + '</span></div>' +
     (result.notes.length ? '<div class="result-detail-item"><span class="result-detail-label">ملاحظات</span><span class="result-detail-value">' + result.notes.join(' — ') + '</span></div>' : '') +
-    '<p style="margin-top:12px;font-size:0.85rem;color:var(--gray);">⚠️ هذا اقتراح أولي — القرار النهائي بعد معاينة الصور</p>';
+    '<p style="margin-top:12px;font-size:0.85rem;color:var(--text-secondary);">⚠️ هذا اقتراح أولي — القرار النهائي بعد معاينة الصور</p>';
 
   clearQuizAfterResult();
   navigateTo('result');
-  // Show install prompt after quiz
   setTimeout(showInstallPrompt, 1000);
 }
 
@@ -346,12 +466,10 @@ document.addEventListener('DOMContentLoaded', function () {
   var origNav = window.navigateTo;
   var newNav = function (page) {
     if (page === 'quiz') {
-      // Load saved state
       try {
         var saved = localStorage.getItem('mcam_quiz');
         if (saved) {
           var parsed = JSON.parse(saved);
-          // Only resume if in-progress (not completed)
           if (parsed.answers && parsed.answers.type && parsed.currentStep < questions.length) {
             quizState = parsed;
           } else {
@@ -370,9 +488,6 @@ document.addEventListener('DOMContentLoaded', function () {
   window.navigateTo = newNav;
 });
 
-// Clear saved quiz after result
 function clearQuizAfterResult() {
   try { localStorage.removeItem('mcam_quiz'); } catch (e) {}
 }
-
-

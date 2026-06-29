@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#CC0000">
-  <meta name="description" content="M-Cam — مساعدك لاختيار نظام الكاميرات المثالي. احسب احتياجاتك في دقيقتين">
+  <meta name="theme-color" content="#00D4FF">
+  <meta name="description" content="M-Cam — مساعدك لاختيار نظام الكاميرات المثالي. أرسل طلبك في دقيقتين">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta property="og:title" content="M-Cam — كاميرات احترافية">
-  <meta property="og:description" content="احسب عدد الكاميرات اللي تحتاجها في دقيقتين">
+  <meta property="og:description" content="اختر نظام الكاميرات المناسب لمكانك">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://mcam-dz.vercel.app">
   <meta property="og:image" content="https://mcam-dz.vercel.app/assets/icon.svg">
   <title>M-Cam — كاميرات احترافية</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/icon.svg">
@@ -28,12 +28,12 @@
     <div class="splash-content">
       <div class="splash-logo">
         <svg viewBox="0 0 512 512" class="splash-icon">
-          <rect width="512" height="512" rx="80" fill="#CC0000"/>
-          <circle cx="256" cy="256" r="110" fill="#0A0A0A"/>
-          <circle cx="256" cy="256" r="70" fill="#CC0000"/>
-          <circle cx="256" cy="256" r="40" fill="#0A0A0A"/>
-          <rect x="195" y="100" width="122" height="32" rx="8" fill="#0A0A0A"/>
-          <circle cx="160" cy="180" r="12" fill="#F5F5F5"/>
+          <rect width="512" height="512" rx="80" fill="#00D4FF"/>
+          <circle cx="256" cy="256" r="110" fill="#07111F"/>
+          <circle cx="256" cy="256" r="70" fill="#00D4FF"/>
+          <circle cx="256" cy="256" r="40" fill="#07111F"/>
+          <rect x="195" y="100" width="122" height="32" rx="8" fill="#07111F"/>
+          <circle cx="160" cy="180" r="12" fill="#FFFFFF"/>
         </svg>
       </div>
       <h1 class="splash-title">M-Cam</h1>
@@ -46,14 +46,15 @@
   <div id="page-home" class="page">
     <div class="page-inner">
       <div class="home-header">
+        <div class="home-logo-glow"></div>
         <div class="home-logo">
           <svg viewBox="0 0 512 512" class="logo-icon">
-            <rect width="512" height="512" rx="80" fill="#CC0000"/>
-            <circle cx="256" cy="256" r="110" fill="#0A0A0A"/>
-            <circle cx="256" cy="256" r="70" fill="#CC0000"/>
-            <circle cx="256" cy="256" r="40" fill="#0A0A0A"/>
-            <rect x="195" y="100" width="122" height="32" rx="8" fill="#0A0A0A"/>
-            <circle cx="160" cy="180" r="12" fill="#F5F5F5"/>
+            <rect width="512" height="512" rx="80" fill="#00D4FF"/>
+            <circle cx="256" cy="256" r="110" fill="#07111F"/>
+            <circle cx="256" cy="256" r="70" fill="#00D4FF"/>
+            <circle cx="256" cy="256" r="40" fill="#07111F"/>
+            <rect x="195" y="100" width="122" height="32" rx="8" fill="#07111F"/>
+            <circle cx="160" cy="180" r="12" fill="#FFFFFF"/>
           </svg>
         </div>
         <h1 class="home-title">M-Cam</h1>
@@ -70,21 +71,38 @@
         </div>
       </div>
 
-      <button class="btn-primary btn-large" onclick="navigateTo('quiz')">
-        احسب احتياجاتك
+      <button class="cta-premium" onclick="navigateTo('quiz')">
+        <span class="cta-premium-inner">
+          <span class="cta-icon-shield">🛡️</span>
+          <span class="cta-text-group">
+            <span class="cta-title">أرسل الطلب</span>
+            <span class="cta-sub">ابدأ بتحديد احتياجاتك خطوة بخطوة</span>
+          </span>
+          <span class="cta-arrow">←</span>
+        </span>
       </button>
 
-      <div class="home-share">
-        <button class="btn-outline" onclick="shareApp()">
-          مشاركة الرابط مع زبون
-        </button>
-      </div>
-
       <div class="home-nav-grid">
-        <button class="nav-card" onclick="navigateTo('works')">أعمالنا</button>
-        <button class="nav-card" onclick="navigateTo('faq')">الأسئلة</button>
-        <button class="nav-card" onclick="navigateTo('warranty')">الضمان</button>
-        <button class="nav-card" onclick="navigateTo('process')">طريقة العمل</button>
+        <button class="nav-card" onclick="navigateTo('faq')">
+          <span class="nav-card-icon">❓</span>
+          <span class="nav-card-title">الأسئلة</span>
+          <span class="nav-card-desc">كل ما تريد معرفته</span>
+        </button>
+        <button class="nav-card" onclick="navigateTo('works')">
+          <span class="nav-card-icon">📷</span>
+          <span class="nav-card-title">أعمالنا</span>
+          <span class="nav-card-desc">مشاريع سابقة</span>
+        </button>
+        <button class="nav-card" onclick="navigateTo('process')">
+          <span class="nav-card-icon">📋</span>
+          <span class="nav-card-title">طريقة العمل</span>
+          <span class="nav-card-desc">كيف نشتغل</span>
+        </button>
+        <button class="nav-card" onclick="navigateTo('warranty')">
+          <span class="nav-card-icon">🛡️</span>
+          <span class="nav-card-title">الضمان</span>
+          <span class="nav-card-desc">خدمة ما بعد البيع</span>
+        </button>
       </div>
     </div>
   </div>
@@ -92,9 +110,9 @@
   <!-- ========== QUIZ ========== -->
   <div id="page-quiz" class="page">
     <div class="quiz-header">
-      <button class="quiz-back" onclick="quizGoBack()">← رجوع</button>
+      <button class="quiz-back" onclick="quizGoBack()">رجوع</button>
       <div class="progress-bar"><div class="progress-fill" id="quiz-progress"></div></div>
-      <span class="quiz-step" id="quiz-step-label">1/6</span>
+      <span class="quiz-step" id="quiz-step-label">1/8</span>
     </div>
     <div class="page-inner" id="quiz-content">
       <!-- Dynamic quiz content -->
@@ -252,6 +270,9 @@
       <div class="contact-location">
         📍 خبراء تركيب الكاميرات — الجزائر
       </div>
+      <button class="btn-outline" onclick="shareApp()" style="margin-top:20px;">
+        شارك التطبيق مع العميل
+      </button>
       <div class="dashboard-trigger" onclick="promptDashboard()">
         <small>⚙️</small>
       </div>
@@ -304,6 +325,21 @@
       </div>
       <button class="btn-primary" onclick="submitRating()">إرسال التقييم</button>
       <button class="btn-link" onclick="skipRating()">تخطي</button>
+    </div>
+  </div>
+
+  <!-- ========== MAP MODAL ========== -->
+  <div id="map-modal" class="modal hidden">
+    <div class="modal-content map-modal-content">
+      <h3>📍 تحديد الموقع</h3>
+      <div class="map-container">
+        <iframe id="map-iframe" src="" frameborder="0" allow="geolocation"></iframe>
+      </div>
+      <div class="map-actions">
+        <button class="btn-secondary" onclick="getCurrentLocation()">📍 تحديد موقعي الحالي</button>
+        <button class="btn-link" onclick="closeMapModal()">إلغاء</button>
+      </div>
+      <div id="map-coords" class="map-coords"></div>
     </div>
   </div>
 

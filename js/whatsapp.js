@@ -9,6 +9,14 @@ function sendToWhatsApp() {
   var msg = '';
   msg += '🔔 *زبون جديد من الموقع — M-Cam*\n';
   msg += '━━━━━━━━━━━━━━━\n';
+  msg += '📍 *الولاية:* ' + (answers.wilaya || 'غير محدد') + '\n';
+  if (answers.addressText) {
+    msg += '🏠 *العنوان:* ' + answers.addressText + '\n';
+  }
+  if (answers.addressLat && answers.addressLng) {
+    msg += '📍 *الموقع:* https://www.google.com/maps?q=' + answers.addressLat + ',' + answers.addressLng + '\n';
+  }
+  msg += '━━━━━━━━━━━━━━━\n';
   msg += '📍 *نوع المكان:* ' + answers.type;
   if (answers.type === 'منزل' && answers.size) {
     msg += ' (' + answers.size + ' طوابق)';
@@ -52,6 +60,7 @@ function sendToWhatsApp() {
       id: Date.now(),
       date: new Date().toLocaleString('ar-DZ'),
       type: answers.type,
+      wilaya: answers.wilaya || '—',
       floors: answers.size || '—',
       cameras: result.count,
       spots: spotsText,

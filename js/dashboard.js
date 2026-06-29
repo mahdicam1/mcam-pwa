@@ -35,6 +35,7 @@ function loadDashboard() {
     html += '<div class="inq-body">';
     html += '<strong>' + inq.type + '</strong>';
     if (inq.floors && inq.floors !== '—') html += ' — ' + inq.floors;
+    if (inq.wilaya && inq.wilaya !== '—') html += ' — ' + inq.wilaya;
     html += '<br><small>' + (inq.spots || '') + '</small>';
     if (inq.images > 0) html += '<br><small>📸 ' + inq.images + ' صور</small>';
     html += '</div></div>';
